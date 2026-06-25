@@ -224,3 +224,125 @@ Unknown is safer because TypeScript requires type checking before use.
 ## Conclusion
 
 TypeScript helps developers build scalable and maintainable applications by providing static typing, interfaces, type aliases, union types, and many other powerful features on top of JavaScript.
+
+
+# Zod Questions & Answers
+
+## 1. What is Zod?
+
+### Answer:
+Zod is a TypeScript-first schema validation library used to validate data at runtime. It helps ensure that data matches the expected structure and types before it is used in an application.
+
+### Example:
+
+```ts
+import { z } from "zod";
+
+const NameSchema = z.string();
+
+NameSchema.parse("Sakib");
+```
+
+---
+
+## 2. Why do we need Zod?
+
+### Answer:
+TypeScript only checks types during development. When data comes from APIs, forms, or external sources, TypeScript cannot validate it at runtime. Zod provides runtime validation to ensure the data is correct.
+
+### Example:
+
+```ts
+import { z } from "zod";
+
+const UserSchema = z.object({
+  name: z.string(),
+  age: z.number(),
+});
+
+UserSchema.parse({
+  name: "Sakib",
+  age: 25,
+});
+```
+
+---
+
+## 3. What is a Zod Schema?
+
+### Answer:
+A Zod schema defines the expected structure and validation rules for data. It acts as a blueprint that describes what data should look like.
+
+### Example:
+
+```ts
+import { z } from "zod";
+
+const UserSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  age: z.number(),
+});
+```
+
+---
+
+## 4. What is the difference between parse() and safeParse()?
+
+### Answer:
+- `parse()` throws an error if validation fails.
+- `safeParse()` returns an object containing success or error information without throwing an exception.
+
+### Example:
+
+```ts
+import { z } from "zod";
+
+const UserSchema = z.object({
+  name: z.string(),
+  age: z.number(),
+});
+
+const result = UserSchema.safeParse({
+  name: "Sakib",
+  age: 25,
+});
+
+if (result.success) {
+  console.log(result.data);
+} else {
+  console.log(result.error);
+}
+```
+
+---
+
+## 5. What is z.infer and why is it useful?
+
+### Answer:
+`z.infer` automatically generates a TypeScript type from a Zod schema. This prevents duplication and keeps TypeScript types synchronized with validation rules.
+
+### Example:
+
+```ts
+import { z } from "zod";
+
+const UserSchema = z.object({
+  name: z.string(),
+  age: z.number(),
+});
+
+type User = z.infer<typeof UserSchema>;
+
+const user: User = {
+  name: "Sakib",
+  age: 25,
+};
+
+console.log(user);
+```
+
+### Benefits of z.infer:
+- Reduces duplicate code.
+- Keeps types and validation rules synchronized.
+- Improves maintainability and type safety.
