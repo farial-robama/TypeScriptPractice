@@ -346,3 +346,6 @@ console.log(user);
 - Reduces duplicate code.
 - Keeps types and validation rules synchronized.
 - Improves maintainability and type safety.
+
+
+## Live link of todo app: https://todo-ts-7c30e3.netlify.app/
